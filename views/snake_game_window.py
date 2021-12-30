@@ -19,6 +19,8 @@ class SnakeGameWindow:
                 cell = column
                 if cell.head:
                     self._game.draw.rect(self._window, WHITE, self._game.Rect(x*self._cell_width, y*self._cell_height, self._cell_width, self._cell_height))  
+                elif cell.food:
+                    self._game.draw.rect(self._window, RED, self._game.Rect(x*self._cell_width, y*self._cell_height, self._cell_width, self._cell_height))  
                 else:
                     self._game.draw.rect(self._window, WHITE, self._game.Rect(x*self._cell_width, y*self._cell_height, self._cell_width, self._cell_height), 1)  
         self._game.display.update()

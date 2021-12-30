@@ -26,7 +26,9 @@ class SnakeGameController:
         self._grid[self._snake[0][0]][self._snake[0][1]].head = True
         self._direction = 'right'
 
-
+        self._grid[5][10].food = True
+        self._grid[5][13].food= True
+        self._grid[5][8].food = True
 
         self._display = SnakeGameWindow(self._game, "Snake Game", 1200, 1200, self.rows, self.columns)
 
@@ -53,17 +55,35 @@ class SnakeGameController:
 
     
     def move(self):
+        
         directions = {
             'up': [-1, 0],
             'right': [0, 1],
             'down': [1, 0],
             'left': [0, -1]
         }
-        
-        current_head = self._grid[self._snake[0][0]][self._snake[0][1]]
-        new_head_coordinates = [self._snake[0][0] + directions[self._direction][0], self._snake[0][1] + directions[self._direction][1]]
-        new_head = self._grid[new_head_coordinates[0]][new_head_coordinates[1]]
-        current_head.head = False
-        new_head.head = True
-        self._snake[0] = new_head_coordinates
+        grow = False
+
+        for snake_part_coordinates in self._snake:
+            snake_part = self._grid[snake_part_coordinates[0]][snake_part_coordinates[1]]
+
+            snake_part_coordinates[0] = self._snake[0][0] + directions[self._direction][0]
+            snake_part_coordinates[1] = self._snake[0][1] + directions[self._direction][1]
+            if snake_part.head:
+                if snake_part.food:
+                    grow = True
+                    snake_part.food = False
+                new_head = self._grid[snake_part_coordinates[0]][snake_part_coordinates[1]]
+                new_head.head = True
+                snake_part.head = False
+                snake_part.body = True
+
+        if not grow:
+            if len(self._snake) > 1:
+                current_tail_coordinates = self._snake[-1]
+                current_tail = self._grid[current_tail_coordinates[0]][current_tail_coordinates[1]]
+                current_tail.body = False
+                self._snake.remove(current_tail_coordinates)
+
+            
         
