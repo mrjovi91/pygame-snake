@@ -30,7 +30,7 @@ class SnakeGameController:
 
         self.determine_new_food()
 
-        self._display = SnakeGameWindow(self._game, "Snake Game", 1200, 1200, self.rows, self.columns)
+        self._display = SnakeGameWindow(self._game, "Snake Game", 600, 600, self.rows, self.columns)
 
     def determine_new_food(self):
         while True:
